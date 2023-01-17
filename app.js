@@ -2,6 +2,8 @@ const express = require("express");
 const routerApi = require("./routes");
 const cors = require("cors");
 
+const {TimerInstance} = require("./utils/timer")
+
 const {logErrors, errorHandler, boomErrorHandler, ormErrorHandler} = require("./middlewares/error.handler")
 
 
@@ -19,6 +21,8 @@ const createApp = () => {
   app.use(ormErrorHandler);
   app.use(boomErrorHandler);
   app.use(errorHandler);
+
+  TimerInstance.run();
 
   return app;
 }
