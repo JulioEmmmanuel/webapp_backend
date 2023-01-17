@@ -139,7 +139,6 @@ dist
 .svelte-kit
 
 .env
-.env.example
 postgres_data
 mysql_data
 
