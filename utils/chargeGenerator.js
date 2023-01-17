@@ -9,7 +9,6 @@ let globalState = {
 
 class ChargeGenerator {
 
-
   constructor(){
     if(instance){
       throw new Error("No se puede crear una nueva instancia");
