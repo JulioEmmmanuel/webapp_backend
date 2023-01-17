@@ -50,8 +50,14 @@ const SubscriptionsSchema = {
 
 class Subscriptions extends Model {
   static associate(models){
-    this.belongsTo(models.Clients, {as: 'clients',});
-    this.belongsTo(models.Services, {as: 'services',});
+    this.belongsTo(models.Clients, {
+      as: 'clients',
+      foreignKey: 'idClient'
+    });
+    this.belongsTo(models.Services, {
+      as: 'services',
+      foreignKey: 'idService'
+    });
     this.hasMany(models.Charges, {
       as: 'charges',
       foreignKey: 'idSubscription'

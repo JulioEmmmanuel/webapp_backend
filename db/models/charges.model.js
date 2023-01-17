@@ -38,7 +38,10 @@ const ChargesSchema = {
 
 class Charges extends Model {
   static associate(models){
-    this.belongsTo(models.Subscriptions, {as: 'subscriptions',});
+    this.belongsTo(models.Subscriptions, {
+      as: 'subscriptions',
+      foreignKey: 'idSubscription'
+    });
   }
 
   static config(sequelize){
