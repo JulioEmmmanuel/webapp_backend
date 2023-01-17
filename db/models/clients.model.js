@@ -27,7 +27,10 @@ const ClientsSchema = {
 
 class Clients extends Model {
   static associate(models){
-
+    this.hasMany(models.Subscriptions, {
+      as: 'subscriptions',
+      foreignKey: 'idClient'
+    });
   }
 
   static config(sequelize){

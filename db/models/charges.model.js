@@ -16,6 +16,16 @@ const ChargesSchema = {
     allowNull: false,
     type: DataTypes.DOUBLE,
   },
+  isPaid: {
+    field: "is_paid",
+    allowNull: true,
+    type: DataTypes.BOOLEAN,
+  },
+  isCancelled: {
+    field: "is_cancelled",
+    allowNull: true,
+    type: DataTypes.BOOLEAN,
+  },
   idSubscription: {
     field: "id_subscription",
     allowNull: false,
@@ -28,7 +38,7 @@ const ChargesSchema = {
 
 class Charges extends Model {
   static associate(models){
-
+    this.belongsTo(models.Subscriptions, {as: 'subscriptions',});
   }
 
   static config(sequelize){

@@ -19,12 +19,12 @@ const SubscriptionsSchema = {
   },
   endDate: {
     field: "end_date",
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.DATEONLY,
   },
   nextCharge: {
     field: "next_charge",
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.DATEONLY,
   },
   idService: {
@@ -38,7 +38,7 @@ const SubscriptionsSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
-  idclient: {
+  idClient: {
     field: "id_client",
     allowNull: false,
     type: DataTypes.INTEGER,
@@ -50,6 +50,12 @@ const SubscriptionsSchema = {
 
 class Subscriptions extends Model {
   static associate(models){
+    this.belongsTo(models.Clients, {as: 'clients',});
+    this.belongsTo(models.Services, {as: 'services',});
+    this.hasMany(models.Charges, {
+      as: 'charges',
+      foreignKey: 'idSubscription'
+    });
 
   }
 

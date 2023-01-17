@@ -30,7 +30,10 @@ const ServicesSchema = {
 
 class Services extends Model {
   static associate(models){
-
+    this.hasMany(models.Subscriptions, {
+      as: 'subscriptions',
+      foreignKey: 'idService'
+    });
   }
 
   static config(sequelize){
