@@ -7,6 +7,11 @@ const {config} = require('./../config/config');
 
 
 class AuthService{
+
+  constructor(){
+
+  }
+
   async getUser(password, username){
     const user = await service.findByUsername(username);
 

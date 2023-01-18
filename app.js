@@ -1,6 +1,7 @@
 const express = require("express");
 const routerApi = require("./routes");
 const cors = require("cors");
+const fileUpload = require('express-fileupload');
 
 const {TimerInstance} = require("./utils/timer")
 
@@ -10,10 +11,11 @@ const {logErrors, errorHandler, boomErrorHandler, ormErrorHandler} = require("./
 const createApp = () => {
   const app = express();
 
-  const whitelist = ["http://localhost:8080", "https://myapp.co"];
+  const whitelist = ["http://localhost:3000", "https://myapp.co"];
 
   app.use(express.json());
   setUpCors(whitelist, app);
+  app.use(fileUpload());
 
   routerApi(app);
 

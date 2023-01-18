@@ -1,10 +1,13 @@
 const {DateUtil} = require("./date.util");
+
 const ChargesService = require("../services/charges.service");
+
+const {models} = require('../libs/sequelize');
 
 let instance;
 let globalState = {
   charges: {},
-  service: null
+  service: null,
 }
 
 class ChargeGenerator {
@@ -17,6 +20,7 @@ class ChargeGenerator {
     instance = this;
     globalState.charges = {}
     globalState.service = new ChargesService();
+
   }
 
   addCharge(date, data) {
@@ -30,13 +34,21 @@ class ChargeGenerator {
 
     const formattedDate =  DateUtil.formatDate(day);
 
+    console.log(formattedDate);
+
     if(globalState.charges[formattedDate]){
 
-      globalState.charges[formattedDate].map(charge => {
+      globalState.charges[formattedDate].map(async charge => {
 
-        globalState.service.create(charge.data);
-        let nextDate = DateUtil.getDeltaDays(day, charge.periodicity);
-        this.addCharge(nextDate, charge);
+        const sub = await models.Subscriptions.findByPk(charge.data.idSubscription);
+
+        if(!sub.dataValues.endDate){
+
+          globalState.service.create(charge.data);
+          let nextDate = DateUtil.getDeltaDays(day, charge.periodicity);
+          this.addCharge(nextDate, charge);
+        }
+
       })
 
       delete globalState.charges[formattedDate];

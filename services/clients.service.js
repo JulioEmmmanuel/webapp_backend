@@ -18,7 +18,14 @@ class ClientsService {
   }
 
   async findOne(id) {
-    const client = await models.Clients.findByPk(id);
+    const client = await models.Clients.findByPk(id, {
+      include: [
+        {
+          association: 'subscriptions',
+          include: ['services']
+        }
+      ]
+    });
     return client;
   }
 

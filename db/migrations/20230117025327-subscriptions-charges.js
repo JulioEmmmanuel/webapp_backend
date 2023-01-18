@@ -7,7 +7,13 @@ const { ChargesSchema, CHARGES_TABLE} = require('./../models/charges.model');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface) {
-    await queryInterface.createTable(SUBSCRIPTIONS_TABLE, SubscriptionsSchema);
+    await queryInterface.createTable(SUBSCRIPTIONS_TABLE, SubscriptionsSchema, {
+      uniqueKeys: {
+        actions_unique: {
+          fields: ['id_service', 'id_client']
+        }
+      }
+    });
     await queryInterface.createTable(CHARGES_TABLE, ChargesSchema);
 
   },

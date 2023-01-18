@@ -7,6 +7,12 @@ const {
   createSubscriptionSchema
 } = require('../schemas/subscriptions.schema');
 
+const {ChargeGeneratorInstance} = require("../utils/chargeGenerator");
+const {DateUtil} = require("../utils/date.util");
+const {TimerInstance} = require("../utils/timer");
+
+
+
 const router = express.Router();
 const service = new SubscriptionsService();
 
@@ -43,12 +49,27 @@ router.post(
 		try {
 			const body = req.body;
 			const newSub = await service.create(body);
+
+      const allData = await service.findOne(newSub.dataValues.id);
+      const {cost, periodicity} = allData.services.dataValues;
+
+      let delta = DateUtil.stringToDays(periodicity);
+      let nextDate = DateUtil.getDeltaDays(TimerInstance.getToday(), delta);
+      ChargeGeneratorInstance.addCharge(nextDate, {
+        "periodicity": delta,
+        "data": {
+          "idSubscription": newSub.dataValues.id,
+          "amount": cost
+        }
+      });
+
 			res.status(201).json({ newSub });
 		} catch (error) {
 			next(error);
 		}
 	}
 );
+
 
 router.put(
 	'/:id',
@@ -58,6 +79,20 @@ router.put(
 		try {
 			const { id } = req.params;
 			const sub = await service.update(id, req.body);
+			res.status(200).json(sub);
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+
+router.patch(
+	'/:id/end-date',
+	validatorHandler(getSubscriptionSchema, 'params'),
+	async (req, res, next) => {
+		try {
+			const { id } = req.params;
+			const sub = await service.cancel(id);
 			res.status(200).json(sub);
 		} catch (error) {
 			next(error);

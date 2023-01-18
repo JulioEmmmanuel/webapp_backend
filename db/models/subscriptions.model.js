@@ -36,7 +36,8 @@ const SubscriptionsSchema = {
       key:'id'
     },
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL'
+    onDelete: 'SET NULL',
+    unique: 'actions_unique'
   },
   idClient: {
     field: "id_client",
@@ -44,7 +45,8 @@ const SubscriptionsSchema = {
     type: DataTypes.INTEGER,
     References: {model: CLIENTS_TABLE, key:'id'},
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL'
+    onDelete: 'SET NULL',
+    unique: 'actions_unique'
   }
 }
 
@@ -70,6 +72,9 @@ class Subscriptions extends Model {
       sequelize,
       tableName: SUBSCRIPTIONS_TABLE,
       modelName: 'Subscriptions',
+      uniqueKeys: {
+
+      },
       timestamps: false
     }
   }

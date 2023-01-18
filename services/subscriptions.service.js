@@ -4,26 +4,16 @@ const {models} = require('../libs/sequelize');
 const {TimerInstance} = require("../utils/timer");
 const {DateUtil} = require("../utils/date.util");
 
-const {ChargeGeneratorInstance} = require("../utils/chargeGenerator");
-
-
 class SubscriptionsService {
 
+  constructor(){
+
+  }
+
   async create(data) {
+    let today = TimerInstance.getToday();
+    data.startDate = DateUtil.formatDate(today);
     const newSub = await models.Subscriptions.create(data);
-    const allData = await this.findOne(newSub.dataValues.id);
-    const {cost, periodicity} = allData.services.dataValues;
-
-
-    let delta = DateUtil.stringToDays(periodicity);
-    let nextDate = DateUtil.getDeltaDays(TimerInstance.getToday(), delta);
-    ChargeGeneratorInstance.addCharge(nextDate, {
-      "periodicity": delta,
-      "data": {
-        "idSubscription": newSub.dataValues.id,
-        "amount": cost
-      }
-    });
 
     return newSub;
   }
@@ -44,7 +34,6 @@ class SubscriptionsService {
       include: [
         'services',
         'clients',
-        'charges'
       ]
     });
     return sub;
@@ -56,6 +45,20 @@ class SubscriptionsService {
       throw boom.notFound();
     }
     const rta = await sub.update(changes);
+    return rta;
+  }
+
+  async cancel(id) {
+    const sub = await this.findOne(id);
+    console.log(id);
+    if(!sub){
+      throw boom.notFound();
+    }
+    let today = TimerInstance.getToday();
+    let endDate = DateUtil.formatDate(today);
+    const rta = await sub.update({
+      "endDate": endDate
+    });
     return rta;
   }
 

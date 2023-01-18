@@ -15,7 +15,7 @@ const getSubscriptionSchema = Joi.object({
 const createSubscriptionSchema = Joi.object({
   idService: idService.required(),
   idClient: idClient.required(),
-  startDate: startDate.required(),
+  startDate,
   endDate,
   nextCharge
 });
