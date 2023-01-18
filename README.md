@@ -9,3 +9,7 @@ Para correr el proyecto escribir en la terminal:
 - npm install
 - docker-compose up -d
 - npm run start
+
+En .env.example se especifican variables de entorno que es importante definir para que el proyecto corra correctamente, entre ellas:
+- El puerto, se sugiere usar el puerto 3000
+- El url para la base de datos de postgresql
