@@ -2,12 +2,14 @@ const boom = require('@hapi/boom');
 
 const {models} = require('../libs/sequelize');
 
+
 class ChargesService {
 
   constructor(){
   }
 
   async create(data) {
+
     const newCharge = await models.Charges.create(data);
     return newCharge;
   }

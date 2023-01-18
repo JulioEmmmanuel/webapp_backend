@@ -1,6 +1,8 @@
 const express = require('express');
 
 const ChargesService = require('../services/charges.service');
+const {TimerInstance} = require("../utils/timer");
+const {DateUtil} = require("../utils/date.util");
 const validatorHandler = require('../middlewares/validator.handler');
 const {
 	getChargeSchema,
@@ -42,6 +44,9 @@ router.post(
 	async (req, res, next) => {
 		try {
 			const body = req.body;
+      let today = TimerInstance.getToday();
+      body.date = DateUtil.formatDate(today);
+      console.log(body);
 			const newCharge = await service.create(body);
 			res.status(201).json({ newCharge });
 		} catch (error) {

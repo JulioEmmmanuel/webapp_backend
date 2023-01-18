@@ -44,6 +44,8 @@ class ChargeGenerator {
 
         if(!sub.dataValues.endDate){
 
+          charge.data.date = formattedDate;
+
           globalState.service.create(charge.data);
           let nextDate = DateUtil.getDeltaDays(day, charge.periodicity);
           this.addCharge(nextDate, charge);

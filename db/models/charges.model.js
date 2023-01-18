@@ -26,6 +26,10 @@ const ChargesSchema = {
     allowNull: true,
     type: DataTypes.BOOLEAN,
   },
+  date: {
+    allowNull: false,
+    type: DataTypes.DATEONLY,
+  },
   idSubscription: {
     field: "id_subscription",
     allowNull: false,

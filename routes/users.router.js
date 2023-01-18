@@ -5,7 +5,7 @@ const validatorHandler = require('../middlewares/validator.handler');
 const {
 	getUserSchema,
   createUserSchema
-} = require('../schemas/clients.schema');
+} = require('../schemas/users.schema');
 
 const router = express.Router();
 const service = new UsersService();

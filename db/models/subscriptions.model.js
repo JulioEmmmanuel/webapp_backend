@@ -22,11 +22,6 @@ const SubscriptionsSchema = {
     allowNull: true,
     type: DataTypes.DATEONLY,
   },
-  nextCharge: {
-    field: "next_charge",
-    allowNull: true,
-    type: DataTypes.DATEONLY,
-  },
   idService: {
     field: "id_service",
     allowNull: false,

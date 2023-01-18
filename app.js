@@ -7,6 +7,7 @@ const {TimerInstance} = require("./utils/timer")
 
 const {logErrors, errorHandler, boomErrorHandler, ormErrorHandler} = require("./middlewares/error.handler")
 
+require('./utils/auth/index')
 
 const createApp = () => {
   const app = express();
